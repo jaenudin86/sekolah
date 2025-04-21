@@ -1,0 +1,22 @@
+{
+  "description": "The CodeIgniter framework",
+  "name": "codeigniter/framework",
+  "type": "project",
+  "homepage": "http://codeigniter.com",
+  "license": "MIT",
+  "support": {
+    "forum": "http://forum.codeigniter.com/",
+    "wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
+    "irc": "irc://irc.freenode.net/codeigniter",
+    "source": "https://github.com/bcit-ci/CodeIgniter"
+  },
+  "require": {
+    "php": ">=5.3.7",
+    "dompdf/dompdf": "^1.0",
+    "phpmailer/phpmailer": "^6.8",
+    "box/spout": "^3.3"
+  },
+  "require-dev": {
+    "mikey179/vfsstream": "1.1.*"
+  }
+}
