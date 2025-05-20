@@ -19,6 +19,7 @@
 								<th>No</th>
 								<th>Nama Pembayaran</th>
 								<th>Keterangan</th>
+								<th>Kategori</th>
 								<th>Aksi</th>
 							</tr>
 							<tbody>
@@ -31,6 +32,19 @@
 											<td><?php echo $i++; ?></td>
 											<td><?php echo $row['pos_name']; ?></td>
 											<td><?php echo $row['pos_description']; ?></td>
+											<td>
+												<?php
+													if ($row['type'] == 1) {
+														echo 'Rutin';
+													} elseif ($row['type'] == 2) {
+														echo 'Masuk';
+													} elseif ($row['type'] == 3) {
+														echo 'Keluar';
+													} else {
+														echo '-';
+													}
+												?>
+											</td>
 											<td>
 											<a href="#" class="badge badge-success" data-toggle="modal" data-target="#updateData<?= $row['pos_id'] ?>">Edit</a>
                                             <a href="" class="badge badge-danger" data-toggle="modal" data-target="#deleteData<?= $row['pos_id'] ?>">Hapus</a>
@@ -76,6 +90,15 @@
 						<label>Keterangan</label>
 						<input type="text" required="" name="pos_description" class="form-control" placeholder="Contoh: Sumbangan Pendidikan" value="<?= $d['pos_description'] ?>">
 					</div>
+					<div class="form-group">
+					<label>Kategori</label>
+					<select name="type" class="form-control" required>
+						<option value="">-- Pilih Kategori --</option>
+						<option value="1" <?= $d['type'] == 1 ? 'selected' : '' ?>>Rutin</option>
+						<option value="2" <?= $d['type'] == 2 ? 'selected' : '' ?>>Masuk</option>
+						<option value="3" <?= $d['type'] == 3 ? 'selected' : '' ?>>Keluar</option>
+					</select>
+				</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -126,6 +149,15 @@
 				<div class="form-group">
 					<label>Keterangan</label>
 					<input type="text" required="" name="pos_description" class="form-control" placeholder="Contoh: Sumbangan Pendidikan">
+				</div>
+				<div class="form-group">
+					<label>Kategori</label>
+					<select name="type" class="form-control" required>
+						<option value="">-- Pilih Kategori --</option>
+						<option value="1">Rutin</option>
+						<option value="2">Masuk</option>
+						<option value="3">Keluar</option>
+					</select>
 				</div>
 			</div>
 			<div class="modal-footer">

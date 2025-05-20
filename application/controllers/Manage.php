@@ -104,7 +104,7 @@ class Manage extends CI_Controller
 		$params['offset'] = $offset;
         $this->db->where('gaji !=', 1);
 		$data['kredit'] = $this->Kredit_model->get($params);
-
+        $data['pos'] = $this->db->get_where('pos', ['type' => 3])->result_array();
 		$data['title'] = 'Pengeluaran Umum';
 		$this->load->view('template/header', $data);
         if ($data['user']['role_id'] !== '1') {
@@ -124,7 +124,7 @@ class Manage extends CI_Controller
 		$this->form_validation->set_rules('kredit_date', 'Tanggal', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('kredit_value', 'Nilai', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('kredit_desc', 'Keterangan', 'trim|required|xss_clean');
-
+        $this->form_validation->set_rules('kategori', 'Kategori', 'trim|required|xss_clean');
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>', '</div>');
 		$data['operation'] = is_null($id) ? 'Tambah' : 'Sunting';
 
@@ -139,6 +139,7 @@ class Manage extends CI_Controller
 			$params['kredit_date'] = $this->input->post('kredit_date');
 			$params['kredit_value'] = $this->input->post('kredit_value');
 			$params['kredit_desc'] = $this->input->post('kredit_desc');
+            $params['kategori'] = $this->input->post('kategori');
 			$params['kredit_last_update'] = date('Y-m-d H:i:s');
 			$params['user_user_id'] = $this->session->userdata('uid');
 
@@ -180,7 +181,7 @@ class Manage extends CI_Controller
 		$params['limit'] = 5;
 		$params['offset'] = $offset;
 		$data['debit'] = $this->Debit_model->get($params);
-
+        $data['pos'] = $this->db->get_where('pos', ['type' => 2])->result_array();
 		$data['title'] = 'Pemasukan Umum';
 		$this->load->view('template/header', $data);
         if ($data['user']['role_id'] !== '1') {
@@ -200,6 +201,7 @@ class Manage extends CI_Controller
 		$this->form_validation->set_rules('debit_date', 'Tanggal', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('debit_value', 'Nilai', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('debit_desc', 'Keterangan', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('kategori', 'Kategori', 'trim|required|xss_clean');
 
 		$this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>', '</div>');
 		$data['operation'] = is_null($id) ? 'Tambah' : 'Sunting';
@@ -215,6 +217,7 @@ class Manage extends CI_Controller
 			$params['debit_date'] = $this->input->post('debit_date');
 			$params['debit_value'] = $this->input->post('debit_value');
 			$params['debit_desc'] = $this->input->post('debit_desc');
+            $params['kategori'] = $this->input->post('kategori');
 			$params['debit_last_update'] = date('Y-m-d H:i:s');
 			$params['user_user_id'] = $this->session->userdata('uid');
 
@@ -321,6 +324,7 @@ class Manage extends CI_Controller
             }
 
             $params['pos_name'] = $this->input->post('pos_name');
+             $params['type'] = $this->input->post('type');
             $params['pos_description'] = $this->input->post('pos_description');
 
             $status = $this->Pos_model->add($params);

@@ -39,7 +39,7 @@ class Pos_model extends CI_Model {
             $this->db->order_by('pos_id', 'desc');
         }
 
-        $this->db->select('pos_id, pos_name, pos_description');
+        $this->db->select('pos_id, pos_name, pos_description,type');
         $res = $this->db->get('pos');
 
         if(isset($params['id']))
@@ -65,6 +65,9 @@ class Pos_model extends CI_Model {
 
         if(isset($data['pos_description'])) {
             $this->db->set('pos_description', $data['pos_description']);
+        }
+                if(isset($data['type'])) {
+            $this->db->set('type', $data['type']);
         }
         
         

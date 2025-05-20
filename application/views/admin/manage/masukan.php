@@ -19,6 +19,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Tanggal Pemasukan</th>
+                                    <th scope="col">Kategori</th>
                                     <th scope="col">Keterangan</th>
                                     <th scope="col">Pemasukan (Rp.)</th>
                                     <th scope="col">Action</th>
@@ -31,6 +32,7 @@
                                     <tr>
                                         <th scope="row"><?= $i ?></th>
                                         <td><?= mediumdate_indo(date($d['debit_date'])) ?></td>
+                                        <td><?= $d['pos_name'] ?></td>
                                         <td><?= $d['debit_desc'] ?></td>
                                         <td><?= 'Rp. ' . number_format($d['debit_value'], 0, ',', '.') ?></td>
                                         <td>
@@ -61,7 +63,17 @@
                                                             <label for="">Keterangan</label>
                                                             <textarea type="text" class="form-control" id="debit_desc" name="debit_desc" placeholder="Keterangan"><?= $d['debit_desc'] ?></textarea>
                                                         </div>
-
+                                                        <div class="form-group">
+                                                                <label>Nama Kategory Pembayaran <small data-toggle="tooltip" title="Wajib diisi">*</small></label>
+                                                                <select name="kategori" class="form-control">
+                                                                    <option value="">-Pilih Kategory Pembayaran-</option>
+                                                                    <?php foreach ($pos as $row) : ?>
+                                                                        <option value="<?= $row['pos_id']; ?>" <?= ($row['pos_id'] == $d['pos_id']) ? 'selected' : '' ?>>
+                                                                            <?= $row['pos_name']; ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label for="debit_value">Jumlah Pemasukan</label>
                                                             <input type="number" class="form-control" id="debit_value" name="debit_value" placeholder="Juamlah Pemasukan" value="<?= $d['debit_value'] ?>">
@@ -135,7 +147,15 @@
                         <label>Tanggal Pemasukan</label>
                         <input type="date" class="form-control" id="debit_date" name="debit_date">
                     </div>
-
+					<div class="form-group">
+							<label>Nama Kategory Pembayaran <small data-toggle="tooltip" title="Wajib diisi">*</small></label>
+							<select name="kategori" class="form-control">
+								<option value="">-Pilih Kategory Pembayaran-</option>
+								<?php foreach ($pos as $row) : ?>
+									<option value="<?= $row['pos_id']; ?>"><?= $row['pos_name']; ?></option>
+								<?php endforeach; ?>
+							</select>
+					</div>
                     <div class="form-group">
                         <label>Keterangan</label>
                         <textarea type="text" class="form-control" id="debit_desc" name="debit_desc" placeholder="Keterangan"></textarea>

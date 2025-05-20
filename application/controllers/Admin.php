@@ -1999,6 +1999,70 @@ class Admin extends CI_Controller
             }
         }
     }
+        public function kategori_pos_pembayaran()
+    {
+        $segmen = $this->uri->segment(3);
+        $data['menu'] = 'Pembayaran';
+        $data['title'] = 'Kategori Pos Pembayaran';
+        $data['user'] = sess_user_admin();
+        $data['web'] =  $this->db->get('website')->row_array();
+
+        $this->db->order_by('id', 'DESC');
+        $data['pembayaran'] =  $this->db->get('kategori_pos_pembayaran')->result_array();
+
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('template/header', $data);
+                    if ($data['user']['role_id'] !== '1') {
+            $this->load->view('template/sidebar_karyawan', $data);
+        }else{
+            $this->load->view('template/sidebar_admin', $data);
+        }
+            $this->load->view('template/topbar_admin', $data);
+            $this->load->view('admin/website/acara/kategori', $data);
+            $this->load->view('template/footer_admin');
+        } else {
+            $nama = $this->input->post('nama');
+            $this->db->where('nama', $nama);
+            $cek_data =  $this->db->get('kategori_acara')->row_array();
+
+            if ($cek_data['nama'] == $nama) {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Data Kategori <strong>' . $nama . '</strong> Sudah Ada :(
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              </div>');
+                if ($segmen == 'tambah') {
+                    redirect('admin/tambah_acara');
+                } elseif ($segmen == 'edit') {
+                    redirect('admin/edit_acara?id=' . $this->uri->segment(4));
+                } else {
+                    redirect('admin/kategori_acara');
+                }
+            }
+            $uniq  = strtolower($nama);
+            $data = [
+                'nama' => $nama,
+                'uniq' => preg_replace("/[^A-Za-z0-9 ]/", "", $uniq)
+            ];
+            $this->db->insert('kategori_acara', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Data Kategori Acara <strong>' . $nama . '</strong> berhasil ditambahkan :)
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          </div>');
+            if ($segmen == 'tambah') {
+                redirect('admin/tambah_acara');
+            } elseif ($segmen == 'edit') {
+                redirect('admin/edit_acara?id=' . $this->uri->segment(4));
+            } else {
+                redirect('admin/kategori_acara');
+            }
+        }
+    }
 
 
     public function gallery()

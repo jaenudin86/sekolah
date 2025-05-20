@@ -21,6 +21,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Tanggal Pengeluaran</th>
                                     <th scope="col">Keterangan</th>
+                                     <th scope="col">Kategori</th>
                                     <th scope="col">Pengeluaran (Rp.)</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -33,6 +34,7 @@
                                         <th scope="row"><?= $i ?></th>
                                         <td><?= mediumdate_indo(date($d['kredit_date'])) ?></td>
                                         <td><?= $d['kredit_desc'] ?></td>
+                                         <td><?= $d['pos_name'] ?></td>
                                         <td><?= 'Rp. ' . number_format($d['kredit_value'], 0, ',', '.') ?></td>
                                         <td>
                                             <a href="#" class="badge badge-success" data-toggle="modal" data-target="#updateData<?= $d['kredit_id'] ?>">Edit</a>
@@ -62,7 +64,18 @@
                                                             <label for="">Keterangan</label>
                                                             <textarea type="text" class="form-control" id="kredit_desc" name="kredit_desc" placeholder="Keterangan"><?= $d['kredit_desc'] ?></textarea>
                                                         </div>
-
+                                                           <div class="form-group">                                                     <div class="form-group">
+                                                                <label>Nama Kategory Pembayaran <small data-toggle="tooltip" title="Wajib diisi">*</small></label>
+                                                                <select name="kategori" class="form-control">
+                                                                    <option value="">-Pilih Kategory Pembayaran-</option>
+                                                                    <?php foreach ($pos as $row) : ?>
+                                                                        <option value="<?= $row['pos_id']; ?>" <?= ($row['pos_id'] == $d['kategori']) ? 'selected' : '' ?>>
+                                                                            <?= $row['pos_name']; ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                        </div>
+                                                        
                                                         <div class="form-group">
                                                             <label for="kredit_value">Jumlah Pengeluaran</label>
                                                             <input type="number" class="form-control" id="kredit_value" name="kredit_value" placeholder="Juamlah Pengeluaran" value="<?= $d['kredit_value'] ?>">
@@ -141,7 +154,15 @@
                         <label>Keterangan</label>
                         <textarea type="text" class="form-control" id="kredit_desc" name="kredit_desc" placeholder="Keterangan"></textarea>
                     </div>
-
+                    <div class="form-group">
+							<label>Nama Kategory Pembayaran <small data-toggle="tooltip" title="Wajib diisi">*</small></label>
+							<select name="kategori" class="form-control">
+								<option value="">-Pilih Kategory Pembayaran-</option>
+								<?php foreach ($pos as $row) : ?>
+									<option value="<?= $row['pos_id']; ?>"><?= $row['pos_name']; ?></option>
+								<?php endforeach; ?>
+							</select>
+					</div>                                                    
                     <div class="form-group">
                         <label for="">Jumah Pengeluaran</label>
                         <input type="number" class="form-control" id="kredit_value" name="kredit_value" placeholder="Jumlah Pengeluaran">

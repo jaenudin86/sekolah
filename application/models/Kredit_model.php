@@ -58,10 +58,11 @@ class Kredit_model extends CI_Model {
 			$this->db->order_by('kredit_id', 'desc');
 		}
 
-		$this->db->select('kredit_id, kredit_date, kredit_value, kredit_desc, kredit_input_date, kredit_last_update');
+		$this->db->select('kredit_id, kredit_date,pos_name,kategori	, kredit_value, kredit_desc, kredit_input_date, kredit_last_update');
 		$this->db->select('user_user_id, nama');
 
 		$this->db->join('karyawan', 'karyawan.id = kredit.user_user_id', 'left');
+		$this->db->join('pos', 'pos.pos_id = kredit.kategori', 'left');
 
 		$res = $this->db->get('kredit');
 
@@ -89,7 +90,9 @@ class Kredit_model extends CI_Model {
 		if(isset($data['kredit_value'])) {
 			$this->db->set('kredit_value', $data['kredit_value']);
 		}
-
+		if(isset($data['kategori'])) {
+			$this->db->set('kategori', $data['kategori']);
+		}
 		if(isset($data['kredit_desc'])) {
 			$this->db->set('kredit_desc', $data['kredit_desc']);
 		}

@@ -58,10 +58,11 @@ class Debit_model extends CI_Model {
 			$this->db->order_by('debit_id', 'desc');
 		}
 
-		$this->db->select('debit_id, debit_date, debit_value, debit_desc, debit_input_date, debit_last_update');
+		$this->db->select('debit_id, debit_date,pos_name, debit_value, debit_desc, debit_input_date, debit_last_update');
 		$this->db->select('user_user_id, nama');
 
 		$this->db->join('karyawan', 'karyawan.id = debit.user_user_id', 'left');
+		$this->db->join('pos', 'pos.pos_id = debit.kategori', 'left');
 
 		$res = $this->db->get('debit');
 
@@ -89,7 +90,9 @@ class Debit_model extends CI_Model {
 		if(isset($data['debit_value'])) {
 			$this->db->set('debit_value', $data['debit_value']);
 		}
-
+		if(isset($data['kategori'])) {
+			$this->db->set('kategori', $data['kategori']);
+		}
 		if(isset($data['debit_desc'])) {
 			$this->db->set('debit_desc', $data['debit_desc']);
 		}

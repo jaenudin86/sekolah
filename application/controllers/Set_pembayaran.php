@@ -34,7 +34,7 @@ class Set_pembayaran extends CI_Controller
     $params['offset'] = $offset;
     $params['order_by_pay'] = 'desc';
     $data['pembayaran'] = $this->M_pembayaran->get($params);
-    $data['pos'] = $this->db->get('pos')->result_array();
+    $data['pos'] = $this->db->get_where('pos', ['type' => 1])->result_array();
     $data['period'] = $this->db->get_where('period', ['period_status' => '1'])->result_array();
 
     $data['title'] = 'Jenis Pembayaran';
